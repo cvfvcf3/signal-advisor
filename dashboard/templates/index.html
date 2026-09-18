@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal Advisor</title>
+<link rel="stylesheet" href="/static/dashboard.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="dot running"></span>
+      <h1>Signal Advisor</h1>
+      <span class="badge">READ-ONLY · NO TRADING</span>
+    </div>
+  </header>
+
+  <section class="card signal-hero">
+    <div class="signal-main">
+      <div class="signal-action" id="signalAction">--</div>
+      <div class="signal-confidence" id="signalConfidence">confidence: --</div>
+      <div class="signal-price" id="signalPrice">-- </div>
+    </div>
+    <div class="signal-scores">
+      <div class="score-bar">
+        <span>Buy</span>
+        <div class="bar"><div class="fill buy" id="buyBar"></div></div>
+        <span id="buyScoreLabel">--</span>
+      </div>
+      <div class="score-bar">
+        <span>Sell</span>
+        <div class="bar"><div class="fill sell" id="sellBar"></div></div>
+        <span id="sellScoreLabel">--</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid stats-grid">
+    <div class="card stat"><div class="label">Accuracy</div><div class="value" id="statAccuracy">--</div></div>
+    <div class="card stat"><div class="label">Correct</div><div class="value pos" id="statCorrect">--</div></div>
+    <div class="card stat"><div class="label">Incorrect</div><div class="value neg" id="statIncorrect">--</div></div>
+    <div class="card stat"><div class="label">Pending</div><div class="value" id="statPending">--</div></div>
+  </section>
+
+  <section class="grid two-col">
+    <div class="card">
+      <div class="card-title">Technical</div>
+      <div class="notes" id="technicalNotes"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Multi-timeframe confirmation</div>
+      <div class="notes" id="mtfNotes"></div>
+    </div>
+  </section>
+
+  <section class="grid two-col">
+    <div class="card">
+      <div class="card-title">Order book</div>
+      <div class="notes" id="orderbookNotes"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Market structure</div>
+      <div class="notes" id="marketStructureNotes"></div>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="card chart-card">
+      <div class="card-title">Price &amp; EMA</div>
+      <canvas id="priceChart" height="140"></canvas>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="card">
+      <div class="card-title">Signal Journal</div>
+      <table class="table" id="signalsTable">
+        <thead><tr><th>Time</th><th>Action</th><th>Confidence</th><th>Entry</th><th>Status</th><th>Move %</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="card">
+      <div class="card-title">Activity Log</div>
+      <div class="log-box" id="logBox"></div>
+    </div>
+  </section>
+
+</div>
+<script src="/static/dashboard.js"></script>
+</body>
+</html>

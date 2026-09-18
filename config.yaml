@@ -1,0 +1,62 @@
+# =============================================================
+# SIGNAL ADVISOR CONFIGURATION
+# This system NEVER places orders. It only watches the market and
+# records signals + their own tracked accuracy over time.
+# =============================================================
+
+exchange:
+  id: mexc                 # any ccxt exchange id
+  sandbox: false
+
+market:
+  symbol: "BTC/USDT"
+  primary_timeframe: "15m"       # the timeframe signals are generated on
+  confirm_timeframes: ["1h", "4h"]   # higher timeframes checked for trend agreement
+  candles_lookback: 300
+  poll_interval_seconds: 60       # how often the advisor re-checks the market
+
+indicators:
+  ema_fast: 9
+  ema_slow: 21
+  ema_trend: 50
+  ema_macro: 200
+  rsi_period: 14
+  rsi_bull_level: 55
+  rsi_bear_level: 45
+  macd_fast: 12
+  macd_slow: 26
+  macd_signal: 9
+  bbands_period: 20
+  bbands_std: 2.0
+  atr_period: 14
+  adx_period: 14
+  volume_ma_period: 20
+  sr_lookback: 50
+
+orderbook:
+  enabled: true
+  depth: 50                 # number of price levels to pull from each side
+  wall_size_multiplier: 3.0  # a level with size > (avg level size * this) counts as a "wall"
+  imbalance_levels: 20       # how many top levels to use for bid/ask imbalance ratio
+
+market_structure:
+  enabled: true              # funding rate / open interest -- only meaningful on futures markets
+  futures_symbol: "BTC/USDT:USDT"   # ccxt unified symbol for the perpetual, if different from spot
+
+# --- scoring weights: how much each layer contributes to the composite score (0-100 total per side) ---
+scoring:
+  weights:
+    technical: 40             # indicator-based score (EMA/RSI/MACD/BBands/Volume/S-R)
+    multi_timeframe: 20        # higher-timeframe trend agreement
+    orderbook: 20               # bid/ask imbalance + walls
+    market_structure: 20         # funding rate + open interest trend
+  min_score_to_signal: 70       # composite score needed on one side to issue BUY/SELL (else WAIT)
+  min_score_gap: 15              # winning side must beat the other side by at least this much
+
+journal:
+  evaluation_candles: 8       # how many primary-timeframe candles later to check if a signal was "correct"
+  success_move_pct: 0.5        # price must have moved at least this % in the predicted direction to count as a win
+
+dashboard:
+  host: "0.0.0.0"
+  port: 5050
